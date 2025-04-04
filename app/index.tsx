@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import {Text, View, StyleSheet, TextInput, Button, Alert} from "react-native";
 import { useState } from 'react';
 import Checkbox from 'expo-checkbox';
 
@@ -13,6 +13,15 @@ export default function Index() {
         {id:5, title: 'React native', isDone: false}
     ])
 
+    console.log(tasks)
+
+    const addTask = () => {
+        const newTask = {id: tasks.length + 1, title: value, isDone: false}
+        //Alert.alert(JSON.stringify(newTask))
+        setTasks([newTask, ...tasks])
+        setValue('')
+    }
+
     return (
         <View style={styles.container}>
             <TextInput
@@ -21,7 +30,11 @@ export default function Index() {
                 onChangeText={setValue}
                 placeholder="Введите текст"
             />
-            <Text style={styles.text}>Вы ввели: {value}</Text>
+            <View style={{marginBottom: 20}}>
+                <Button title={'Add task'} onPress={addTask} />
+            </View>
+
+
             <View style={{width: '60%'}}>
                 {tasks.map((t) => {
                     return <View key={t.id} style={[styles.boxTask, globalStyles.border]}>
@@ -49,10 +62,6 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: 'white',
         marginBottom: 20
-    },
-    text: {
-        fontSize: 16,
-        color: 'black'
     },
     boxTask: {
         flexDirection: 'row',
