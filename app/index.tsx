@@ -1,5 +1,5 @@
-import {Text, View, StyleSheet, TextInput, Button, Alert} from "react-native";
-import { useState } from 'react';
+import {Text, View, StyleSheet, TextInput, Button, Alert, TouchableWithoutFeedback, Keyboard} from "react-native";
+import {ReactElement, ReactNode, useState} from 'react';
 import Checkbox from 'expo-checkbox';
 
 export default function Index() {
@@ -27,12 +27,16 @@ export default function Index() {
 
     return (
         <View style={styles.container}>
-            <TextInput
-                style={[styles.input]}
-                value={value}
-                onChangeText={setValue}
-                placeholder="Введите текст"
-            />
+            <HideKeyboard>
+                <View style={[{width: '80%', alignItems: 'center', paddingVertical: 20}]}>
+                    <TextInput
+                        style={[styles.input]}
+                        value={value}
+                        onChangeText={setValue}
+                    />
+                </View>
+            </HideKeyboard>
+
             <View style={{marginBottom: 20}}>
                 <Button title={'Add task'} onPress={addTask} />
             </View>
@@ -49,6 +53,11 @@ export default function Index() {
         </View>
     );
 }
+const HideKeyboard = ({children}: {children: ReactNode}): ReactElement => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        {children}
+    </TouchableWithoutFeedback>
+)
 
 const styles = StyleSheet.create({
     container: {
