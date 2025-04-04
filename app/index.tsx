@@ -13,13 +13,16 @@ export default function Index() {
         {id:5, title: 'React native', isDone: false}
     ])
 
-    console.log(tasks)
 
     const addTask = () => {
         const newTask = {id: tasks.length + 1, title: value, isDone: false}
         //Alert.alert(JSON.stringify(newTask))
         setTasks([newTask, ...tasks])
         setValue('')
+    }
+
+    const changeStatus = (taskId: number, status: boolean) => {
+        setTasks(tasks.map((t) => t.id === taskId ? {...t, isDone: status} : t))
     }
 
     return (
@@ -38,7 +41,7 @@ export default function Index() {
             <View style={{width: '60%'}}>
                 {tasks.map((t) => {
                     return <View key={t.id} style={[styles.boxTask, globalStyles.border]}>
-                        <Checkbox value={t.isDone} onValueChange={()=>{}} />
+                        <Checkbox value={t.isDone} onValueChange={(value)=>changeStatus(t.id, value)} />
                         <Text>{t.title}</Text>
                     </View>
                 })}
